@@ -2,12 +2,13 @@
   
   <include file="$(find my_imu_package)/launch/my_imu_with_rviz.launch" ></include>
   <include file="$(find realsense2_camera)/launch/rs_camera.launch" ></include>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="imu_to_base_link" args="0 0 0 0 0 0 imu_link base_link" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="imu_to_base_link" args="0 0 0 0 0 0 base_link imu_link" />
 
 
-  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_to_base_link" args="0 0 0 0 0 0 camera__color_optical_frame base_link" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="camera_to_base_link" args="0 0 0 0 0 0 base_link camera__color_optical_frame" />
   
-  <node pkg="tf2_ros" type="static_transform_publisher" name="depth_camera_to_base_link" args="0 0 0 0 0 0 camera__depth_optical_frame base_link" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="depth_camera_to_base_link" args="0 0 0 0 0 0  base_link camera__depth_optical_frame" />
+
   
   <node pkg="rtabmap_odom" type="rgbd_odometry" name="rgbd_odometry" output="screen">
     <param name="frame_id" value="camera_link" />
@@ -17,6 +18,10 @@
     <remap from="/depth/image" to="/camera/depth/image_rect_raw" />
     <remap from="/rgb/camera_info" to="/camera/color/camera_info" />
   </node>
+  
+    <node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_to_base_link" args="0 0 0 0 0 0  base_link camera_link" />
+    
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_to_base_link" args="0 0 0 0 0 0  base_link odom" />
   <!-- 
    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_node" output="screen">
     <param name="use_sim_time" value="false"/>
